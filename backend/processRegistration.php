@@ -11,9 +11,9 @@ if(isset($_POST['register'])){
 
 
   //check if the email already exist in the db
-  $checkEmailQuery = "SELECT id FROM tbl_users WHERE email = '$email' LIMIT 1";
+  $checkEmailQuery = "SELECT id FROM tbl_users WHERE email = '$email' OR fullname = '$fullName' LIMIT 1";
   if($conn ->query($checkEmailQuery) ->num_rows > 0){
-    $message = "Email Already Exist";
+    $message = "User Already Exist";
 
   }
   else{
@@ -24,7 +24,7 @@ if(isset($_POST['register'])){
       $query = "INSERT INTO tbl_users(fullname, email, password) VALUES ('$fullName', '$email', '$hashedPassword')";
 
       if($conn ->query($query)){
-        header("Location: ../pages/login.php");
+        $message = "Registration successful. You can now log in.";
       }
       else{
         $message =  "Error: " . $conn->error;

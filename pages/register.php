@@ -10,6 +10,7 @@ include("../backend/processRegistration.php");
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Register</title>
   <?php include("../includes/cssBootstrap.php"); ?>
+  <script src="https://kit.fontawesome.com/3ee2c2cc76.js" crossorigin="anonymous"></script>
   <style>
     body {
       font-family: Helvetica, Arial, sans-serif;
@@ -38,7 +39,7 @@ include("../backend/processRegistration.php");
       text-decoration: none;
     }
 
-    .btn {
+    .btn-finish {
       background-color: #00754A;
       color: #FFFFFF;
       border-radius: 30px;
@@ -98,16 +99,10 @@ include("../backend/processRegistration.php");
             Please input a secure password.
           </div>
         </div>
-        <div>
-          <p class="text-danger mb-2"><?php
-                                    if (isset($_POST['register'])) {
-                                      echo $message;
-                                    }
-                                    ?></p>
-      </div>
+        <p class="text-center">Already have an account? <a href="login.php">Login here</a></p>
 
           <div class="d-flex justify-content-end">
-            <button id="liveToastBtn" type="submit" class="btn" name="register">Finish</button>
+            <button id="liveToastBtn" type="submit" class="btn btn-finish" name="register">Finish</button>
           </div>
         </div>
       </form>
@@ -117,30 +112,38 @@ include("../backend/processRegistration.php");
   </div>
 
 
-  <div class="toast align-items-center" role="alert" aria-live="assertive" aria-atomic="true" id="liveToast" style="position: absolute; top: 20px; right: 20px;"> 
-    <div class="d-flex">
-      <div class="toast-body">
-        <p class="text-danger mb-2"><?php
-                                    if (isset($_POST['register'])) {
-                                      echo $message;
-                                    }
-                                    ?></p>
-      </div>
-      <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+  <div class="toast" role="alert" data-bs-delay="3000" aria-live="assertive" aria-atomic="true" id="liveToast"  style="position: absolute; top: 20px; right: 20px;">
+
+  <div class="d-flex align-items-center w-100">
+    
+    <div class="toast-body text-danger mb-0">
+      <?php
+        if (isset($_POST['register'])) {
+          if($message == "Registration successful. You can now log in."){
+            echo '<p class="mb-0 text-success"><i class="fa-solid fa-circle-check"></i> ' . $message . '</p> ';
+          }
+          else{
+            echo '<p class="mb-0 text-danger"><i class="fa-solid fa-triangle-exclamation"></i> ' . $message . '</p>';
+          }
+        }
+      ?>
     </div>
+
+    <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close">
+    </button>
+
   </div>
+</div>
 
   <?php include("../includes/jsBootstrap.php"); ?>
   <script>
-    const toastTrigger = document.getElementById('liveToastBtn')
-    const toastLiveExample = document.getElementById('liveToast')
-
-    if (toastTrigger) {
-      const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample)
-      toastTrigger.addEventListener('click', () => {
-        toastBootstrap.show()
-      })
-    }
+  document.addEventListener("DOMContentLoaded", function () {
+      <?php if (isset($_POST['register']) && !empty($message)) : ?>
+          var toastEl = document.getElementById('liveToast');
+          var toast = new bootstrap.Toast(toastEl);
+          toast.show();
+      <?php endif; ?>
+  });
   </script>
 </body>
 

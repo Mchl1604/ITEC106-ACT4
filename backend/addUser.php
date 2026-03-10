@@ -22,7 +22,7 @@ $message = "";
       $message = "User successfully added";
     }
     else{
-      $message = "Error bala ka na";
+      $message = "Database Error: " . $conn->error;
     }
   }
 

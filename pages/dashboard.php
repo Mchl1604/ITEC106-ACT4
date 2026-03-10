@@ -1,7 +1,5 @@
 <?php
 session_start();
-
-
 if (!isset($_SESSION['user'])) {
   header("Location: login.php");
 }
@@ -72,11 +70,7 @@ include("../backend/fetchUserAccounts.php");
 
   <div class="container mt-2">
     <h1><?php
-        if (isset($_SESSION['user'])) {
-          echo "Welcome " . $_SESSION['user'];
-        } else {
-          header("Location: login.php");
-        }
+        echo "Welcome, " . $_SESSION['user'] . "!";
         ?></h1>
   </div>
 
@@ -210,7 +204,40 @@ include("../backend/fetchUserAccounts.php");
       </div>
     </div>
   </div>
+
+  <div class="toast" role="alert" data-bs-delay="3000" aria-live="assertive" aria-atomic="true" id="liveToast"  style="position: absolute; top: 20px; right: 20px;">
+
+  <div class="d-flex align-items-center w-100">
+    
+    <div class="toast-body text-danger mb-0">
+      <?php
+        if (isset($_POST['addUser'])) {
+          if($message == "User successfully added"){
+            echo '<p class="mb-0 text-success"><i class="fa-solid fa-circle-check"></i> ' . $message . '</p> ';
+          }
+          else{
+            echo '<p class="mb-0 text-danger"><i class="fa-solid fa-triangle-exclamation"></i> ' . $message . '</p>';
+          }
+        }
+      ?>
+    </div>
+
+    <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close">
+    </button>
+
+  </div>
+</div>
+
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+  <script>
+  document.addEventListener("DOMContentLoaded", function () {
+      <?php if (isset($_POST['addUser']) && !empty($message)) : ?>
+          var toastEl = document.getElementById('liveToast');
+          var toast = new bootstrap.Toast(toastEl);
+          toast.show();
+      <?php endif; ?>
+  });
+  </script>
 </body>
 
 </html>

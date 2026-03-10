@@ -2,7 +2,7 @@
 include("database.php");
 $message = "";
 
-if(isset($_POST['addUser'])){
+
   $fullName = $_POST['fullName'];
   $email = $_POST['email'];
   $role = $_POST['role'];
@@ -26,5 +26,5 @@ if(isset($_POST['addUser'])){
     }
   }
 
-}
+
 ?>
